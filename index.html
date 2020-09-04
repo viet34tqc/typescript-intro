@@ -2038,15 +2038,210 @@ Original highlight.js style (c) Ivan Sagalaev <maniac@softwaremaniacs.org>
   </head>
   <body>
     <div class="reveal">
-      <div class="slides slides"><section class="slides-section"><section class="slide"><h1>Topic b</h1>
-</section></section><section class="slides-section"><section class="slide"><h1>About me</h1>
-<p>Hi, I'm ...</p>
-</section></section><section class="slides-section"><section class="slide"><h1>introduction to topic b</h1>
-<p>introduction to topic b</p>
-</section><section class="slide"><h2>introduction to topic b</h2>
-<p>foo</p>
-</section><section class="slide"><h2>introduction to topic b</h2>
-<p>bar</p></section></section></div>
+      <div class="slides slides"><section class="slides-section"><section class="slide"><h1>Typescript</h1>
+</section></section><section class="slides-section"><section class="slide"><h1>1 số vấn đề có thể xảy ra khi code JavaScript (JS)</h1>
+<ul>
+<li>Dynamic types: Không cần khai báo types => dễ sinh ra lỗi: var x = 123; x.trim();... (Biến này còn có thể thay đổi nhiều)</li>
+<li>Các tính năng mới nhất của ES6 (class, arrow function) phải dùng Babel để biên dịch</li>
+</ul>
+</section></section><section class="slides-section"><section class="slide"><h1>TypeScript (TS)</h1>
+<p>TS là phiên bản mở rộng của JS nên kế thừa hết những hàm, object sử dụng trong JS</p>
+<ul>
+<li>Static types: Allow to use strict types (Javascript thì là dynamic types)</li>
+<li>Compile code để browser có thể hiểu được. Nó tương tự như là biên dịch file SASS sang CSS. Có thể bắt lỗi ngay trong quá trình compile</li>
+<li>Support modern features (ES6) giống babel. Có thể viết cú pháp ES6. Khi biên dịch ra nó sẽ ra code của ES5</li>
+<li>Hỗ trợ OOP thông qua interface: Cái này sẽ rất thuận lợi cho dev chuyển từ backend sang</li>
+<li>Extra features (generics, tuples...).</li>
+</ul>
+</section></section><section class="slides-section"><section class="slide"><h1>Cài đặt và setup</h1>
+</section><section class="slide"><h2>Cài đặt</h2>
+<ul>
+<li>npm i -g typescript</li>
+<li>Kiểm tra: tsc -v</li>
+</ul>
+</section><section class="slide"><h2>Setup</h2>
+<ul>
+<li>Tạo file config: tsc --init => sinh ra 1 file tsconfig.json</li>
+<li>Sửa thư mục rootDir và outDir</li>
+<li>tsc -w: </li>
+</ul>
+</section></section><section class="slides-section"><section class="slide"><h1>Khai báo với types</h1>
+<p>Khi khai báo trong JS, thì chỉ cần dùng var, let, const, không cần định nghĩa kiểu dữ liệu là string, number...<br>
+Trong TS, có thể khai báo kiểu dữ liệu cho biến, hàm...</p>
+</section><section class="slide"><h2>Primative</h2>
+<pre><code class="hljs language-ini">let character: <span class="hljs-attr">string</span> = <span class="hljs-string">'john'</span><span class="hljs-comment">; //TS sẽ dựa trên giá trị được gán ban đầu mà tự dộng xác định types cho variable => Nếu có giá trị gán ban đầu rồi thì không phải khai báo type nữa.</span>
+let isTrue: <span class="hljs-attr">boolean</span> = <span class="hljs-literal">true</span><span class="hljs-comment">;</span>
+let multiple: <span class="hljs-attr">number</span> = <span class="hljs-number">16</span><span class="hljs-comment">;</span>
+</code></pre>
+</section><section class="slide"><h2>Mixed types</h2>
+<pre><code class="hljs language-ini">let character: string|number<span class="hljs-comment">;</span>
+<span class="hljs-attr">character</span> = <span class="hljs-number">10</span><span class="hljs-comment">;</span>
+<span class="hljs-attr">character</span> = <span class="hljs-literal">false</span><span class="hljs-comment">; // error</span>
+</code></pre>
+</section><section class="slide"><h2>Array</h2>
+<pre><code class="hljs language-smali">let names: string[] = []; //<span class="hljs-built_in"> array </span>chỉ chứa string.
+names = ['abc', 123] => báo lỗi
+let names: (string|number)[] = []; //<span class="hljs-built_in"> array </span>chỉ chứa string hoặc number.
+</code></pre>
+</section><section class="slide"><h2>Object</h2>
+<pre><code class="hljs language-css"><span class="hljs-selector-tag">let</span> <span class="hljs-selector-tag">object</span>: {
+    <span class="hljs-attribute">name</span>: string,
+    age: number,
+}
+</code></pre>
+</section><section class="slide"><h2>Dynamic( any ):</h2>
+<pre><code class="hljs language-ini">let age: <span class="hljs-attr">any</span> = <span class="hljs-number">25</span><span class="hljs-comment">;</span>
+let <span class="hljs-attr">mixed</span> = any[] = []
+</code></pre>
+</section></section><section class="slides-section"><section class="slide"><h1>Function</h1>
+<pre><code class="hljs language-livecodeserver">const <span class="hljs-built_in">add</span> = (<span class="hljs-keyword">a</span>: <span class="hljs-built_in">number</span>, b: <span class="hljs-built_in">number</span>, c?: <span class="hljs-built_in">number</span> | <span class="hljs-keyword">string</span>): <span class="hljs-built_in">number</span> => {
+    <span class="hljs-literal">return</span> <span class="hljs-keyword">a</span> + b;
+};
+const <span class="hljs-built_in">result</span> = <span class="hljs-built_in">add</span>(<span class="hljs-number">3</span>, <span class="hljs-number">5</span>);
+</code></pre>
+<ul>
+<li>:number sau parameter là type của value trả về</li>
+<li>c?: có thể có hoặc không, có thể khai báo giá trị mặc định cho c mà không cần dùng dấu?</li>
+<li>Kết quả trả về sẽ được hiểu mặc định là ở dạng number</li>
+</ul>
+</section><section class="slide">
+<p>1 ví dụ khác phức tạp hơn:</p>
+<pre><code class="hljs language-css"><span class="hljs-selector-tag">const</span> <span class="hljs-selector-tag">greet</span> = ( <span class="hljs-selector-tag">user</span>: {<span class="hljs-attribute">name</span>: string, uid: string | number } ) {}
+</code></pre>
+<p>Vì việc khai báo type của arg dài dòng => nên định định nghĩa type trước và sử dụng type cho các hàm khác được</p>
+<pre><code class="hljs language-routeros">type StringOrNumber = string | number;<span class="hljs-built_in">
+type </span>objTypes = {name: string, uid: StringOrNumber }
+const greet = ( user: objTypes ) {}
+</code></pre>
+</section></section><section class="slides-section"><section class="slide"><h1>Class</h1>
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">class</span> Invoice {
+    <span class="hljs-keyword">readonly</span> client: <span class="hljs-built_in">string</span>;
+    <span class="hljs-keyword">private</span> details: <span class="hljs-built_in">string</span>;
+    <span class="hljs-keyword">public</span> amount: <span class="hljs-built_in">number</span>;
+    <span class="hljs-keyword">constructor</span>(<span class="hljs-params"> c: <span class="hljs-built_in">string</span>, d: <span class="hljs-built_in">string</span>, a: <span class="hljs-built_in">number</span></span>) {
+        <span class="hljs-built_in">this</span>.client = c;
+        <span class="hljs-built_in">this</span>.details = d;
+        <span class="hljs-built_in">this</span>.amount = a;
+    }
+    format() {
+        <span class="hljs-keyword">return</span> <span class="hljs-string">`<span class="hljs-subst">${<span class="hljs-built_in">this</span>.client}</span> owes <span class="hljs-subst">${<span class="hljs-built_in">this</span>.amount}</span> for <span class="hljs-subst">${<span class="hljs-built_in">this</span>.details}</span>`</span>;
+    }
+}
+<span class="hljs-keyword">const</span> invOne = <span class="hljs-keyword">new</span> Invoice(<span class="hljs-string">'viet'</span>, <span class="hljs-string">'learn typescript'</span>, <span class="hljs-number">400</span>);
+<span class="hljs-keyword">const</span> invTwo = <span class="hljs-keyword">new</span> Invoice(<span class="hljs-string">'nguyen'</span>, <span class="hljs-string">'practice typescript'</span>, <span class="hljs-number">500</span>);
+</code></pre>
+</section><section class="slide"><h2>Public, private, readonly</h2>
+<ul>
+<li>public: dùng thoải mái</li>
+<li>private: dùng trong class only</li>
+<li>readonly: chỉ đọc ở trong và ngoài class, không sửa được</li>
+</ul>
+<p>Viết gọn lại constructor:
+constructor(
+readonly client: string,
+private details: string,
+public amount: number,
+) {}</p>
+</section></section><section class="slides-section"><section class="slide"><h1>DOM</h1>
+<p>Làm việc với DOM trong TS gần như là giống với JS, ngoại trừ việc khai báo thêm type (Type casting)</p>
+<pre><code class="hljs language-routeros">const form = document.querySelector( <span class="hljs-string">'new-item-form'</span> ) as HTMLFormElement;
+const<span class="hljs-built_in"> type </span>= document.querySelector( <span class="hljs-string">'#types'</span> ) as HTMLSelectElement;
+</code></pre>
+</section></section><section class="slides-section"><section class="slide"><h1>Interface</h1>
+<pre><code class="hljs language-json">function buildVinFast (vinfastObj ) {
+    console.log( vinfastObj )
+}
+
+buildVinFast({
+    length: <span class="hljs-number">196</span>,
+    width: <span class="hljs-number">86</span>,
+    measureTirePressure: function () {
+    },
+    wheelbase: <span class="hljs-number">116</span>
+})
+
+buildVinFast({
+    length: <span class="hljs-string">"196"</span>,
+    width: <span class="hljs-string">"86"</span>,
+    wheelbase: <span class="hljs-string">"116"</span>,
+    measureDimension: function () {
+    }
+})
+</code></pre>
+</section><section class="slide">
+<p>Ở ví dụ trên, vì không có quy chuẩn để build xe vinfast => các thông số đầu vào sẽ bị lệch nhau, ở đây là properties và methods sẽ bị khác nhau.</p>
+</section><section class="slide">
+<p>Cần có 1 tiêu chuẩn thống nhất khi build, ở đây là tiêu chuẩn cho các object.</p>
+</section><section class="slide">
+<pre><code class="hljs language-css"><span class="hljs-selector-tag">interface</span> <span class="hljs-selector-tag">VinModels</span> {
+    <span class="hljs-attribute">length</span>: number;
+    <span class="hljs-attribute">width</span>: number;
+    <span class="hljs-attribute">wheelbase</span>: number;
+    <span class="hljs-attribute">seatingCapacity</span>: number;
+    <span class="hljs-attribute">getTyrePressure</span>: () => number;
+    <span class="hljs-attribute">getTyreDimension</span>: () => number;
+}
+</code></pre>
+<pre><code class="hljs language-http"><span class="hljs-attribute">function buildVinfast (vinfastObj</span>: VinModels) {
+}
+
+<span class="less"><span class="hljs-selector-tag">buildVinfast</span>({
+    <span class="hljs-attribute">length</span>: <span class="hljs-string">"196"</span>,
+    <span class="hljs-attribute">width</span>: <span class="hljs-string">"86"</span>,
+    <span class="hljs-attribute">wheelbase</span>: <span class="hljs-string">"116"</span>,
+    <span class="hljs-attribute">measuredimension</span>: function () {
+    }
+})
+</span></code></pre>
+<p>Nếu viết như trên sẽ báo lỗi type của properties và thiếu method</p>
+</section><section class="slide">
+<pre><code class="hljs language-http"><span class="hljs-attribute">function buildVinfast (vinfastObj</span>: VinModels) {
+}
+
+<span class="yaml"><span class="hljs-string">buildVinfast({</span>
+    <span class="hljs-attr">length:</span> <span class="hljs-number">196</span><span class="hljs-string">,</span>
+    <span class="hljs-attr">width:</span> <span class="hljs-number">86</span><span class="hljs-string">,</span>
+    <span class="hljs-attr">wheelbase:</span> <span class="hljs-number">116</span><span class="hljs-string">,</span>
+    <span class="hljs-attr">seatingCapacity:</span> <span class="hljs-number">4</span><span class="hljs-string">,</span>
+    <span class="hljs-attr">getTyrePressure:</span> <span class="hljs-string">function</span> <span class="hljs-string">()</span> {
+        <span class="hljs-string">let</span> <span class="hljs-string">tyrePressure</span> <span class="hljs-string">=</span> <span class="hljs-number">20</span>
+        <span class="hljs-string">return</span> <span class="hljs-string">tyrePressure</span>
+    }<span class="hljs-string">,</span>
+    <span class="hljs-attr">getTyreDimension:</span> <span class="hljs-string">function</span> <span class="hljs-string">()</span> {
+        <span class="hljs-string">let</span> <span class="hljs-string">dimension</span> <span class="hljs-string">=</span> <span class="hljs-number">20</span>
+        <span class="hljs-string">return</span> <span class="hljs-string">dimension</span>
+    }
+<span class="hljs-string">})</span>
+</span></code></pre>
+</section><section class="slide"><h2>Sử dụng với class</h2>
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">class</span> VinModelsPrototype <span class="hljs-keyword">implements</span> VinModels {
+    length: <span class="hljs-built_in">number</span>;
+    width: <span class="hljs-built_in">number</span>;
+    wheelbase: <span class="hljs-built_in">number</span>;
+    seatingCapacity: <span class="hljs-built_in">number</span>;
+    <span class="hljs-keyword">private</span> tempCache: <span class="hljs-built_in">string</span>;
+
+    <span class="hljs-keyword">constructor</span> (<span class="hljs-params">l, w, wb, sc</span>) {
+        <span class="hljs-built_in">this</span>.length = l;
+        <span class="hljs-built_in">this</span>.width = w;
+        <span class="hljs-built_in">this</span>.wheelbase = wb;
+        <span class="hljs-built_in">this</span>.seatingCapacity = sc;
+    }
+
+    getTyrePressure () {
+        <span class="hljs-keyword">let</span> tyrePressure = <span class="hljs-number">20</span> <span class="hljs-comment">// Evaluated after doing a few complex computations!</span>
+        <span class="hljs-keyword">return</span> tyrePressure
+    }
+
+    getTyreDimension () {
+        <span class="hljs-keyword">let</span> dimension = <span class="hljs-number">20</span> <span class="hljs-comment">// Evaluated after doing a few complex computations!</span>
+        <span class="hljs-keyword">return</span> dimension
+    }
+}
+
+<span class="hljs-keyword">let</span> vinfastObj = <span class="hljs-keyword">new</span> VinModelsPrototype(<span class="hljs-number">196</span>, <span class="hljs-number">86</span>, <span class="hljs-number">116</span>, <span class="hljs-number">4</span>)
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Tyre Pressure'</span>, vinfastObj.getTyrePressure())
+</code></pre></section></section></div>
     </div>
     <script>/*!
  * reveal.js
