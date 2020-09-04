@@ -2144,8 +2144,8 @@ public amount: number,
 ) {}</p>
 </section></section><section class="slides-section"><section class="slide"><h1>DOM</h1>
 <p>Làm việc với DOM trong TS gần như là giống với JS, ngoại trừ việc khai báo thêm type (Type casting)</p>
-<pre><code class="hljs language-routeros">const form = document.querySelector( <span class="hljs-string">'new-item-form'</span> ) as HTMLFormElement;
-const<span class="hljs-built_in"> type </span>= document.querySelector( <span class="hljs-string">'#types'</span> ) as HTMLSelectElement;
+<pre><code class="hljs language-dart"><span class="hljs-keyword">const</span> form: HTMLFormElement | <span class="hljs-keyword">null</span> = <span class="hljs-built_in">document</span>.<span class="hljs-built_in">querySelector</span>( <span class="hljs-string">'new-item-form'</span> );
+<span class="hljs-keyword">const</span> type: HTMLSelectElement | <span class="hljs-keyword">null</span> = <span class="hljs-built_in">document</span>.<span class="hljs-built_in">querySelector</span>( <span class="hljs-string">'#types'</span> );
 </code></pre>
 </section></section><section class="slides-section"><section class="slide"><h1>Interface</h1>
 <pre><code class="hljs language-json">function buildVinFast (vinfastObj ) {
